@@ -8,5 +8,11 @@ dependencies = [
     "duckdb>=1.4.1",
     "ipykernel>=7.0.0",
     "jupyter>=1.1.1",
-    "psycopg>=3.2.10",
+    "matplotlib>=3.10.7",
+    "numpy>=2.3.4",
+    "pandas>=2.3.3",
+    "psycopg[binary,pool]>=3.2.10",
+    "pyarrow>=10.0.1",
 ]
+
+psycopg = {version = ">=3.2.10", extras = ["binary"]}
