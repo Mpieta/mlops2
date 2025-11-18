@@ -1,0 +1,22 @@
+[project]
+name = "lab4"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "datasets>=4.4.1",
+    "google-genai>=1.49.0",
+    "huggingface-hub>=0.36.0",
+    "ipykernel>=7.1.0",
+    "matplotlib>=3.10.7",
+    "pgvector>=0.4.1",
+    "polars>=1.35.2",
+    "psycopg>=3.2.12",
+    "pymilvus>=2.6.3",
+    "pymupdf>=1.26.6",
+    "sentence-transformers>=5.1.2",
+    "sqlalchemy>=2.0.44",
+    "torch>=2.9.0",
+    "transformers>=4.57.1",
+]
