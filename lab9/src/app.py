@@ -1,25 +1,30 @@
-import os.path
-
-from src import inference
+import os
 from fastapi import FastAPI
+from src import inference
+from pydantic import BaseModel
 
-from src.api.models.iris import PredictRequest, PredictResponse
+
+class PredictRequest(BaseModel):
+    text: str
+
+class PredictResponse(BaseModel):
+    prediction: int
 
 app = FastAPI()
-model = inference.load_model(os.path.join("models", "iris.joblib"))
-
+classifier, encoder = inference.load_models(
+    classifier_path=os.path.join("models", "classifier.joblib"),
+    encoder_path=os.path.join("models", "sentence_transformer.model"),
+)
 
 @app.get("/")
 def welcome_root():
     return {"message": "Welcome to the ML API"}
 
-
 @app.get("/health")
 def health_check():
     return {"status": "ok"}
 
-
-@app.post("/predict")
-def predict(request: PredictRequest) -> PredictResponse:
-    prediction = inference.predict(model, request.model_dump())
-    return PredictResponse(prediction=prediction)
+@app.post("/predict", response_model=PredictResponse)
+def predict(request: PredictRequest):
+    pred = inference.predict(classifier, encoder, request.text)
+    return PredictResponse(prediction=pred)

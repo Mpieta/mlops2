@@ -1,15 +1,16 @@
 import joblib
-import numpy as np
-from sklearn.linear_model import LogisticRegression
+from sentence_transformers import SentenceTransformer
 
 
-def load_model(path: str) -> LogisticRegression:
-    with open(path, "rb") as f:
-        model = joblib.load(f)
-    return model
+def load_models(classifier_path: str, encoder_path: str):
+    classifier = joblib.load(classifier_path)
+    encoder = SentenceTransformer(encoder_path)
+
+    return classifier, encoder
 
 
-def predict(model: LogisticRegression, inp: dict[str, float]) -> str:
-    x = np.array(list(inp.values())).reshape(1, -1)
-    pred = model.predict(x)
-    return pred[0]
+def predict(classifier, encoder, text: str) -> int:
+    embedding = encoder.encode([text])
+    prediction = classifier.predict(embedding)
+    print(prediction)
+    return prediction[0]
